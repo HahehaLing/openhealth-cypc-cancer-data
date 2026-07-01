@@ -1,0 +1,157 @@
+{
+  "name": "n8n_etl_cypc",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c1bfb7dc-0c28-43a3-b274-2680bf33ccdd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "=https://health-infobase.canada.ca/api/CYPC/query?q=SELECT * FROM CYPCIncidence WHERE \"year\" = \"2023\" AND \"area\" = \"B\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8907808f-3c41-4cdb-a81d-c27ecd11e202",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// A mapping dictionary to translate government area codes to full province names\nconst provinceMap = {\n  \"T\": \"Canada (Total)\",\n  \"B\": \"British Columbia\",\n  \"A\": \"Alberta\",\n  \"S\": \"Saskatchewan\",\n  \"M\": \"Manitoba\",\n  \"O\": \"Ontario\",\n  \"Q\": \"Quebec\",\n  \"N\": \"Nova Scotia\",\n  \"NB\": \"New Brunswick\",\n  \"NL\": \"Newfoundland and Labrador\",\n  \"PE\": \"Prince Edward Island\",\n  \"NT\": \"Northwest Territories\",\n  \"NU\": \"Nunavut\",\n  \"YT\": \"Yukon\"\n};\n\n// Loop over all incoming JSON items from the HTTP Request node\nreturn $input.all().map(item => {\n  let data = item.json;\n\n  // --- TRANSFORMATION 1: Standardize Province Names ---\n  // If the 'area' code exists in our map, replace the code with the full name\n  if (data.area && provinceMap[data.area]) {\n    data.area = provinceMap[data.area];\n  }\n\n  // --- TRANSFORMATION 2: Handle missing metrics and \"<5\" strings ---\n  if (data.value_text === \"-\") {\n    // Standardize missing data as null (this becomes a clean, empty cell in your CSV)\n    data.value_text = null; \n  } else if (data.value_text === \"<5\") {\n    // Keep suppressed data exactly as it is to protect patient privacy\n    data.value_text = \"<5\";\n  } else {\n    // Ensure regular numbers are explicitly cast to strings so the whole column shares one data type\n    data.value_text = String(data.value_text);\n  }\n\n  return { json: data };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f7dc5a76-5d63-49cd-ac7b-dbc9fbb7a3ac",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "HahehaLing",
+          "mode": "list",
+          "cachedResultName": "HahehaLing",
+          "cachedResultUrl": "https://github.com/HahehaLing"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "openhealth-cypc-cancer-data",
+          "mode": "list",
+          "cachedResultName": "openhealth-cypc-cancer-data",
+          "cachedResultUrl": "https://github.com/HahehaLing/openhealth-cypc-cancer-data"
+        },
+        "filePath": "data/CYPCIncidence_BC_2023.csv",
+        "binaryData": true,
+        "commitMessage": "initial CYPCIncidence just bc and 2023. Auto-update: Health data synced for {{ $now.toFormat('yyyy-MM-dd') }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        832,
+        0
+      ],
+      "id": "7a3f7668-fb1c-4b28-8ef2-afb868f53473",
+      "name": "Create a file",
+      "webhookId": "5ad32ec8-a2a2-4ec7-9151-c33b31e99525",
+      "credentials": {
+        "githubApi": {
+          "id": "sjwNZWcPw6RKcFQf",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "bb6f71bf-0f21-4362-be13-f4df9760c5c2",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Create a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0c260514-3548-467f-8003-844f3d5e3702",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "84c7121d493548ab8a9e4f891086ac4c7f9fb1ec6e2ba1a40d678536f7118be0"
+  },
+  "id": "WgmRYEtfO07OZua5",
+  "tags": []
+}
