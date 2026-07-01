@@ -31,4 +31,4 @@ For the full legal terms, see the [LICENSE](LICENSE) file in this repository or 
 
 If you use this dataset in your research, product, or project, please cite it as follows:
 
-> **[openhealth-cypc-cancer-data]** (2026). *"Cancer in Young People in Canada (CYP-C) Open Data"*. GitHub Repository. [https://github.com/HahehaLing/openhealth-cypc-cancer-data/](https://github.com/HahehaLing/openhealth-cypc-cancer-data/)
+> Ling, Y. (2026). *"Cancer in Young People in Canada (CYP-C) Open Data"*. [Dataset]. GitHub Repository. [https://github.com/HahehaLing/openhealth-cypc-cancer-data/](https://github.com/HahehaLing/openhealth-cypc-cancer-data/)
