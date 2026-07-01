@@ -1,3 +1,23 @@
+The software code, scripts, and original text documentation in this repository 
+are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License.
+To view a copy of this license, visit: http://creativecommons.org
+
+---
+
+DATA EXCLUSION NOTICE:
+
+The underlying public health datasets fetched or distributed by this repository 
+are NOT covered by the CC BY 4.0 license. 
+
+This data is property of the Government of Canada (Health Canada / Public Health Agency of Canada) 
+and is sourced via the Health Infobase API. It is licensed strictly under the 
+Open Government Licence – Canada. 
+
+Downstream users must maintain the following mandatory federal attribution:
+"Contains information licensed under the Open Government Licence – Canada."
+
+
+
 Attribution 4.0 International
 
 =======================================================================
