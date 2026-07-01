@@ -19,7 +19,13 @@ Under the following terms:
 
 For the full legal terms, see the [LICENSE](LICENSE) file in this repository or visit the [Creative Commons website](https://creativecommons.org).
 
-## Citation
+
+## License & Attribution
+
+* **Code & Scripts:** Licensed under [CC BY 4.0](http://creativecommons.org).
+* **Data Source:** Health Canada / Public Health Agency of Canada, [Health Infobase API](https://canada.ca). 
+* **Data License:** Contains information licensed under the [Open Government Licence – Canada](https://canada.ca).
+### Citation
 
 If you use this dataset in your research, product, or project, please cite it as follows:
 
