@@ -4,7 +4,7 @@ An automated n8n ETL pipeline extracting and cleaning Cancer in Young People in 
 
 # Source
 Source: Health Canada / Public Health Agency of Canada, Health Infobase API. Contains information licensed under the Open Government Licence – Canada. [https://health-infobase.canada.ca/api/]
-
+* NOTE: TODO: REVIEW: https://health-infobase.canada.ca/data-tools/cypc/ for data dictionary and add into this readme
 
 ## License
 
